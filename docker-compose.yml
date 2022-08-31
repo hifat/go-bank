@@ -1,0 +1,16 @@
+version: '3.9'
+
+networks:
+  gobank:
+    name: gobank-network
+    driver: bridge
+
+services:
+  db:
+    image: postgres:12-alpine
+    container_name: gobank-db
+    networks:
+      - gobank
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
