@@ -1,16 +1,16 @@
-posgres:
-	docker run --name posgres12 -p 5433:5432 -e POSTGRES_USERNAME=root -e POSTGRES_PASSWORD=secret -d postgres:12-alpine
+mysql:
+	docker run --name mysql8 -p 3306:3306 -e MYSQL_USER=root -e MYSQL_PASSWORD=1234 -e MYSQL_ROOT_PASSWORD=root -d mysql:8
 
-createdb:
-	docker exec -it postgres12 createdb --username=root --owner=root go_bank
-
-dropdb:
-	docker exec -it postgres12 dropdb go_bank
+shelldb:
+	docker exec -it mysql8 mysql -u root -p
 
 migrateup:
-	 migrate -path db/migration -database "postgresql://root:secret@172.21.48.1:5433/go-bank?sslmode=disable" -verbose up
+	 migrate -path db/migration -database "mysql://root:root@tcp(172.21.48.1:3306)/go_bank" -verbose up
 
 migratedown:
-	 migrate -path db/migration -database "postgresql://root:secret@172.21.48.1:5433/go-bank?sslmode=disable" -verbose down
+	 migrate -path db/migration -database "mysql://root:root@tcp(172.21.48.1:3306)/go_bank" -verbose down
 
-.PHONY: postgres createdb dropdb
+sqlc:
+	sqlc generate
+
+.PHONY: mysql

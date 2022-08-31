@@ -1,31 +1,45 @@
+# Setup
+1. `sqlc generate`
+
 # Go Bank Workshop
 What I learned from this workshop
 
 ## Docker
-I need to change local port to 5433 because some programs in my computer use postgreSQL too.
+I need to use MySQL because sqlc on Windows support only mysql
 ```docker
-docker run --name postgres12 -p 5433:5432 -e POSTGRES_USER=root POSTGRES_PASSWORD=1234 -d postgres:12.3-alpine
+docker run --name mysql8 -p 3306:3306 -e MYSQL_USER=root -e MYSQL_PASSWORD=1234 -e MYSQL_ROOT_PASSWORD=root -d mysql:8
 ```
 
 ```docker
-docker exec -it postgres12 psql -U root
+docker exec -it mysql8 mysql -u root -p
 ```
 
 ```docker
-docker logs postgres12
+docker logs mysql8
 ```
 
 ## DB Migration
+### Install
+```bash
+# MAC OSX
+brew install migrate
+
+# Windows(must install scoop)
+scoop install migrate
+```
+
+### Create file
 ```bash
 migrate create -ext sql -dir db/migration -seq init_schema
 ```
 
+### Migrate and Drop
 ```bash
-migrate -path db/migration -database "postgresql://root:secret@localhost:5433/go-bank?sslmode=disable" -verbose up
+# Up
+migrate -path db/migration -database "mysql://root:root@tcp(172.21.48.1:3306)/go_bank" -verbose up
 
-# If use on WSL may have to change localhost to WSL IP such as
-# You can check by typing "ipconfig"
-migrate -path db/migration -database "postgresql://root:secret@172.21.40.2:5433/go-bank?sslmode=disable" -verbose up
+# Down
+migrate -path db/migration -database "mysql://root:root@tcp(172.21.48.1:3306)/go_bank" -verbose down
 ```
 
 ## Reference
