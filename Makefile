@@ -8,9 +8,9 @@ dropdb:
 	docker exec -it postgres12 dropdb go_bank
 
 migrateup:
-	 migrate -path db/migration -database "postgresql://root:secret@172.21.48.1:5433/go-blank?sslmode=disable" -verbose up
+	 migrate -path db/migration -database "postgresql://root:secret@172.21.48.1:5433/go-bank?sslmode=disable" -verbose up
 
 migratedown:
-	 migrate -path db/migration -database "postgresql://root:secret@172.21.48.1:5433/go-blank?sslmode=disable" -verbose down
+	 migrate -path db/migration -database "postgresql://root:secret@172.21.48.1:5433/go-bank?sslmode=disable" -verbose down
 
 .PHONY: postgres createdb dropdb

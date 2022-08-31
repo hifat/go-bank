@@ -25,7 +25,7 @@ migrate -path db/migration -database "postgresql://root:secret@localhost:5433/go
 
 # If use on WSL may have to change localhost to WSL IP such as
 # You can check by typing "ipconfig"
-migrate -path db/migration -database "postgresql://root:secret@172.21.40.2:5433/go-blank?sslmode=disable" -verbose up
+migrate -path db/migration -database "postgresql://root:secret@172.21.40.2:5433/go-bank?sslmode=disable" -verbose up
 ```
 
 ## Reference
