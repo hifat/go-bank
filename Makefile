@@ -5,12 +5,17 @@ shelldb:
 	docker exec -it mysql8 mysql -u root -p
 
 migrateup:
-	 migrate -path db/migration -database "mysql://root:root@tcp(172.21.48.1:3306)/go_bank" -verbose up
+	 migrate -path db/migration -database "mysql://root:root@tcp(127.0.0.1:3306)/go_bank" -verbose up
 
 migratedown:
-	 migrate -path db/migration -database "mysql://root:root@tcp(172.21.48.1:3306)/go_bank" -verbose down
+	 migrate -path db/migration -database "mysql://root:root@tcp(127.0.0.1:3306)/go_bank" -verbose down
 
 sqlc:
 	sqlc generate
+
+testquery:
+	go test ./db/test -v -cover -coverpkg=./db/sqlc
+
+test: testquery
 
 .PHONY: mysql
